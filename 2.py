@@ -1,7 +1,7 @@
 twos = 0
 threes = 0
 
-with open('input.txt', 'r') as file:
+with open("input.txt", "r") as file:
     for line in file:
         letters = {}
 
@@ -28,4 +28,3 @@ with open('input.txt', 'r') as file:
 
 # print(twos, threes)
 print(twos * threes)
-
