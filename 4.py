@@ -1,5 +1,5 @@
 """
-Totally stole this solution from https://adventofcode.com/2018/day/4
+Totally stole this solution from https://www.michaelfogleman.com/aoc18/#4
 because I couldn't get mine working. It was close though, I promise.
 """
 
