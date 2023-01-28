@@ -1,9 +1,0 @@
-abcd
-efg
-hijk
-lmnop
-qrs
-tuv
-w
-x
-yz
