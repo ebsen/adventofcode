@@ -5,7 +5,6 @@ require_relative 'solutions'
 class SolutionsTests < Test::Unit::TestCase
   # A test for the sample inputs for each's days' puzzle.
   # assert_equal expected, actual
-  # @@
   @@solutions = Solutions.new
 
   def test_day1
