@@ -1,3 +1,4 @@
-.mypy_cache
+.nova
 .vscode
-tags
+
+advent.db
