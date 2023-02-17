@@ -30,7 +30,7 @@ end
 solutions = Solutions.new
 answers = DB.from(:answers)
 DB.from(:inputs).order(:day).each do |input|
-  # Destruct the record with pattern matching!
+  # Destruct the record with pattern matching and rightward assignment!
   input => {id: input_id, day:, input: input_text}
   puts "\nResults for day #{day}:"
   # Try to solve every puzzle for which we have a solution implemented.
