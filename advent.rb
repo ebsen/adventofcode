@@ -16,28 +16,34 @@ options = { :debug => false, :init => false }
 OptionParser.new do |opt|
   opt.on('--debug', 'Enable debugging')    { options[:debug] = true }
   opt.on('--init',  'Initialize database') { options[:init]  = true }
+  opt.on('--migrate',  'Migrate database') { options[:migrate]  = true }
 end.parse!
 puts options if options[:debug]
 
 DB = Sequel.connect('sqlite://advent.db')
-if options[:init]
-  init_db
+init if options[:init]
+if options[:migrate]
+  migrate
+  exit
 end
 
-puts "Starting..."
 solutions = Solutions.new
-records = DB.from(:advent).order(:day).select(:day, :input)
-# puts "Done. Nothing found." if records.nil?
-records.each do |r|
-  day = r[:day]
-  puts "Found no data." if r.nil?
-  begin
-    p1, p2 = solutions.for day: day, input: r[:input]
-  rescue NoMethodError
-    puts "No method for day#{day}. Done."
-    break
-  end
+answers = DB.from(:answers)
+DB.from(:inputs).order(:day).each do |input|
+  # Destruct the record with pattern matching!
+  input => {id: input_id, day:, input: input_text}
   puts "\nResults for day #{day}:"
-  p p1
-  p p2
+  # Try to solve every puzzle for which we have a solution implemented.
+  solutions.for(day: day, input: input_text).each_with_index do |result, index|
+    answer = answers.where(input_id: input_id, part: index + 1).get(:answer)
+    if answer.nil?
+      output = "  #{result}" # "(new)"
+      # TODO: Insert result as answer
+    elsif result == answer
+      output = "✔ #{result}"
+    else
+      output = "✗ #{result} (#{answer})"
+    end
+    puts output
+  end
 end
