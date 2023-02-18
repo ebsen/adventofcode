@@ -31,15 +31,19 @@ solutions = Solutions.new
 Input.order(:day).each do |input|
   # Destruct the record with pattern matching and rightward assignment!
   input.values => {id: input_id, day:, input: input_text}
-  puts "\nResults for day #{day}:"
+  puts "\n  Day #{day}"
+  puts "----------"
+
   # Try to solve both puzzles for this input.
   solutions.for(day: day, input: input_text).each_with_index do |result, index|
     answer = Answer.where(input_id: input_id, part: index + 1).get(:answer)
+    output = result.to_s
     if answer.nil?
-      output = "  #{result}" # "(new)"
-      # TODO: Insert result as answer
+      # New result, no known answer.
+      output.prepend "  "
+      # TODO: Insert result as answer.
     elsif result == answer
-      output = "✔ #{result}"
+      output.prepend "✔ "
     else
       output = "✗ #{result} (#{answer})"
     end
