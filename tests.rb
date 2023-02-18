@@ -40,10 +40,18 @@ class SolutionsTests < Test::Unit::TestCase
     assert_equal 15, p1
     assert_equal 12, p2
   end
-#
-#   def test_day3
-#     p1, p2 = @@solutions.for day: 3
-#     assert_equal nil, p1
-#     assert_equal nil, p2
-#   end
+
+  def test_day3
+    input = <<~HEREDOC
+      vJrwpWtwJgWrhcsFMMfFFhFp
+      jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL
+      PmmdzqPrVvPwwTWBwg
+      wMqvLMZHhHMvwLHjbvcjnnSBnvTQFn
+      ttgJtRGJQctTZtZT
+      CrZsJsPPZsGzwwsLwLmpwMDw
+    HEREDOC
+    p1, p2 = @@solutions.for day: 3, input: input
+    assert_equal 157, p1
+    # assert_equal nil, p2
+  end
 end

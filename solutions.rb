@@ -1,3 +1,5 @@
+require 'set'
+
 class Solutions
   @@is_debug = false
 
@@ -87,5 +89,21 @@ class Solutions
         )]
     end
     return p1_score, p2_score
+  end
+
+  def day3 rucksacks
+    def priority char
+      1 + ((('a'..'z').to_a + ('A'..'Z').to_a).index char)
+    end
+
+    total_priority = 0
+    process(rucksacks, as_i: false).each do |contents|
+      first = contents[0, contents.size / 2]
+      second = contents[contents.size / 2, contents.size]
+      common_char = (first.chars & second.chars).first
+      x = priority common_char
+      total_priority += x
+    end
+    return total_priority, 0
   end
 end
