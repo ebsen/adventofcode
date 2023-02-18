@@ -32,7 +32,7 @@ Input.order(:day).each do |input|
   # Destruct the record with pattern matching and rightward assignment!
   input.values => {id: input_id, day:, input: input_text}
   puts "\nResults for day #{day}:"
-  # Try to solve every puzzle for which we have a solution implemented.
+  # Try to solve both puzzles for this input.
   solutions.for(day: day, input: input_text).each_with_index do |result, index|
     answer = Answer.where(input_id: input_id, part: index + 1).get(:answer)
     if answer.nil?
