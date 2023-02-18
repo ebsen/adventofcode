@@ -23,6 +23,21 @@ puts options if options[:debug]
 init if options[:init]
 migrate if options[:migrate]
 
+def output result, answer
+  text = result.to_s
+  if answer.nil?
+    # New result, no known answer.
+    text.prepend "  "
+    # TODO: Insert result as answer.
+  elsif result == answer
+    text.prepend "✔ "
+  else
+    text = "✗ #{result} (#{answer})"
+  end
+  puts text
+end
+
+# Actually do the thing.
 solutions = Solutions.new
 Input.order(:day).each do |input|
   # Destruct the record with pattern matching and rightward assignment!
@@ -33,16 +48,6 @@ Input.order(:day).each do |input|
   # Try to solve both puzzles for this input.
   solutions.for(day: day, input: input_text).each_with_index do |result, index|
     answer = Answer.where(input_id: input_id, part: index + 1).get(:answer)
-    output = result.to_s
-    if answer.nil?
-      # New result, no known answer.
-      output.prepend "  "
-      # TODO: Insert result as answer.
-    elsif result == answer
-      output.prepend "✔ "
-    else
-      output = "✗ #{result} (#{answer})"
-    end
-    puts output
+    output result, answer
   end
 end
