@@ -15,17 +15,13 @@ require_relative 'solutions'
 
 options = { :debug => false, :init => false }
 OptionParser.new do |opt|
-  opt.on('--debug', 'Enable debugging')    { options[:debug] = true }
-  opt.on('--init',  'Initialize database') { options[:init]  = true }
-  opt.on('--migrate',  'Migrate database') { options[:migrate]  = true }
+  opt.on('--debug',   'Enable debugging')    { options[:debug]   = true }
+  opt.on('--init',    'Initialize database') { options[:init]    = true }
+  opt.on('--migrate', 'Migrate database')    { options[:migrate] = true }
 end.parse!
 puts options if options[:debug]
-
 init if options[:init]
-if options[:migrate]
-  migrate
-  exit
-end
+migrate if options[:migrate]
 
 solutions = Solutions.new
 Input.order(:day).each do |input|

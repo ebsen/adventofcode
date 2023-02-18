@@ -29,6 +29,7 @@ def migrate
     answers.insert(input_id: input_id, part: 1, answer: r[:solution1])
     answers.insert(input_id: input_id, part: 2, answer: r[:solution2])
   end
+  exit
 end
 
 def seed
