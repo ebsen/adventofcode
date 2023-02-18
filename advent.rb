@@ -9,8 +9,9 @@ require 'optparse'
 require 'sequel'
 require 'sqlite3'
 
-require_relative 'solutions'
+require_relative 'models'
 require_relative 'schema'
+require_relative 'solutions'
 
 options = { :debug => false, :init => false }
 OptionParser.new do |opt|
@@ -20,7 +21,6 @@ OptionParser.new do |opt|
 end.parse!
 puts options if options[:debug]
 
-DB = Sequel.connect('sqlite://advent.db')
 init if options[:init]
 if options[:migrate]
   migrate
@@ -28,14 +28,13 @@ if options[:migrate]
 end
 
 solutions = Solutions.new
-answers = DB.from(:answers)
-DB.from(:inputs).order(:day).each do |input|
+Input.order(:day).each do |input|
   # Destruct the record with pattern matching and rightward assignment!
-  input => {id: input_id, day:, input: input_text}
+  input.values => {id: input_id, day:, input: input_text}
   puts "\nResults for day #{day}:"
   # Try to solve every puzzle for which we have a solution implemented.
   solutions.for(day: day, input: input_text).each_with_index do |result, index|
-    answer = answers.where(input_id: input_id, part: index + 1).get(:answer)
+    answer = Answer.where(input_id: input_id, part: index + 1).get(:answer)
     if answer.nil?
       output = "  #{result}" # "(new)"
       # TODO: Insert result as answer
