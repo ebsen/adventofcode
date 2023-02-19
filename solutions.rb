@@ -117,13 +117,13 @@ class Solutions
 
   def day4 section_assignments
     # Find the pairs in which one set completely contains the other.
-    overlapping_pairs = process(section_assignments, as_i:false).select {|pair|
-      left, right = pair.split(",").map {|side|
+    overlaps = process(section_assignments, as_i: false).select do |pair|
+      left, right = pair.split(",").map do |side|
         first, last = side.split("-").map {|e| e.to_i }
         first..last
-      }
+      end
       (left.cover? right) or (right.cover? left)
-    }
-    return overlapping_pairs.size, 0
+    end
+    return overlaps.size, 0
   end
 end
