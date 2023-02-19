@@ -116,14 +116,23 @@ class Solutions
   end
 
   def day4 section_assignments
-    # Find the pairs in which one set completely contains the other.
-    overlaps = process(section_assignments).select do |pair|
+    # Part 1: Find the pairs in which one set completely contains the other.
+    overlap_totally = process(section_assignments).select do |pair|
       left, right = pair.split(",").map do |side|
         first, last = side.split("-").map {|e| e.to_i }
         first..last
       end
       (left.cover? right) or (right.cover? left)
     end
-    return overlaps.size, 0
+
+    # Part 2: Find the pairs in which either set overlaps the other at all.
+    overlaps = process(section_assignments).select do |pair|
+      left, right = pair.split(",").map do |side|
+        l, r = side.split("-").map {|s| s.to_i}
+        (l..r).to_a
+      end
+    !(left & right).empty?
+    end
+    return overlap_totally.size, overlaps.size
   end
 end
