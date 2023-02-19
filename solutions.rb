@@ -10,7 +10,7 @@ class Solutions
   end
 
   private
-  def process data, as_i: true
+  def process data, as_i: false
     # `data` is a multiline string.
     data.split("\n").map {|l| as_i ? l.to_i : l.chomp}
   end
@@ -18,7 +18,7 @@ class Solutions
   def day1 input
     calories = 0
     totals = []
-    process(input).each do |line|
+    process(input, as_i: true).each do |line|
       if line.zero?
         totals.push calories unless calories.zero?
         calories = 0
@@ -75,7 +75,7 @@ class Solutions
       result
     end
 
-    process(strategy_guide, as_i: false).each do |line|
+    process(strategy_guide).each do |line|
       theirs, yours = line.split(' ')
       p1_score +=
         points[your_choice_cypher[yours]] +
@@ -98,7 +98,7 @@ class Solutions
 
     # Part 1
     p1_sum_priorities = 0
-    process(rucksacks, as_i: false).each do |contents|
+    process(rucksacks).each do |contents|
       first = contents[0, contents.size / 2]
       second = contents[contents.size / 2, contents.size]
       common_char = (first.chars & second.chars).first
@@ -108,7 +108,7 @@ class Solutions
 
     # Part 2
     p2_sum_priorities = 0
-    process(rucksacks, as_i: false).each_slice(3).each do |group|
+    process(rucksacks).each_slice(3).each do |group|
       badge = (group[0].chars & group[1].chars & group[2].chars).first
       p2_sum_priorities += priority badge
     end
@@ -117,7 +117,7 @@ class Solutions
 
   def day4 section_assignments
     # Find the pairs in which one set completely contains the other.
-    overlaps = process(section_assignments, as_i: false).select do |pair|
+    overlaps = process(section_assignments).select do |pair|
       left, right = pair.split(",").map do |side|
         first, last = side.split("-").map {|e| e.to_i }
         first..last
