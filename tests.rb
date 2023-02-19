@@ -54,4 +54,18 @@ class SolutionsTests < Test::Unit::TestCase
     assert_equal 157, p1
     assert_equal 70, p2
   end
+
+  def test_day4
+    input = <<~HEREDOC
+      2-4,6-8
+      2-3,4-5
+      5-7,7-9
+      2-8,3-7
+      6-6,4-6
+      2-6,4-8
+    HEREDOC
+    p1, p2 = @@solutions.for day: 4, input: input
+    assert_equal 2, p1
+    # assert_equal nil, p2
+  end
 end

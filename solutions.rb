@@ -114,4 +114,16 @@ class Solutions
     end
     return p1_sum_priorities, p2_sum_priorities
   end
+
+  def day4 section_assignments
+    # Find the pairs in which one set completely contains the other.
+    overlapping_pairs = process(section_assignments, as_i:false).select {|pair|
+      left, right = pair.split(",").map {|side|
+        first, last = side.split("-").map {|e| e.to_i }
+        first..last
+      }
+      (left.cover? right) or (right.cover? left)
+    }
+    return overlapping_pairs.size, 0
+  end
 end
