@@ -135,4 +135,27 @@ class Solutions
     end
     return overlap_totally.size, overlaps.size
   end
+
+  def day5 drawing
+    def letter_for_crate crate
+      crate[1]
+    end
+    stacks = {}
+    crates, procedure = drawing.split("\n\n").map {|half| half.split("\n")}
+    col_line = crates.pop
+    (1..col_line.split(" ").last.to_i).each do |column|
+      stacks[column] = []
+      idx = col_line.index column.to_s
+      crates.reverse.each do |row|
+        crate = row[idx]
+        stacks[column].push row[idx] unless crate.nil? or crate.match? /\s/
+      end
+    end
+    procedure.each do |step|
+      quantity, origin, destination = step.split(" ").map {|x| x.to_i}.select {|x| x != 0}
+      quantity.times {stacks[destination].push(stacks[origin].pop)}
+    end
+    p stacks.map {|_, s| s.last}.join
+    return stacks.map {|_, s| s.last}.join, ""
+  end
 end

@@ -68,4 +68,21 @@ class SolutionsTests < Test::Unit::TestCase
     assert_equal 2, p1
     assert_equal 4, p2
   end
+
+  def test_day5
+    input = <<~HEREDOC
+          [D]
+      [N] [C]
+      [Z] [M] [P]
+       1   2   3
+
+      move 1 from 2 to 1
+      move 3 from 1 to 3
+      move 2 from 2 to 1
+      move 1 from 1 to 2
+    HEREDOC
+    p1, p2 = @@solutions.for day: 5, input: input
+    assert_equal "CMZ", p1
+    # assert_equal nil, p2
+  end
 end
