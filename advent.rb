@@ -24,17 +24,17 @@ init if options[:init]
 migrate if options[:migrate]
 
 def output result, answer
-  text = result.to_s
+  result = result.to_s
   if answer.nil?
     # New result, no known answer.
-    text.prepend "  "
+    result.prepend "? "
     # TODO: Insert result as answer.
   elsif result == answer
-    text.prepend "✔ "
+    result.prepend "✔ "
   else
-    text = "✗ #{result} (#{answer})"
+    result = "✗ #{result} (#{answer})"
   end
-  puts text
+  puts result
 end
 
 # Actually do the thing.
