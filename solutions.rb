@@ -155,7 +155,6 @@ class Solutions
       quantity, origin, destination = step.split(" ").map {|x| x.to_i}.select {|x| x != 0}
       quantity.times {stacks[destination].push(stacks[origin].pop)}
     end
-    p stacks.map {|_, s| s.last}.join
     return stacks.map {|_, s| s.last}.join, ""
   end
 end
