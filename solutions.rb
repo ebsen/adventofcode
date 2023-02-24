@@ -152,7 +152,8 @@ class Solutions
       end
     end
     procedure.each do |step|
-      quantity, origin, destination = step.split(" ").map {|x| x.to_i}.select {|x| x != 0}
+      quantity, origin, destination =
+        step.split(" ").map {|x| x.to_i}.select {|x| x.nonzero?}
       quantity.times {stacks[destination].push(stacks[origin].pop)}
     end
     return stacks.map {|_, s| s.last}.join, ""
