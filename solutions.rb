@@ -137,25 +137,36 @@ class Solutions
   end
 
   def day5 drawing
-    def letter_for_crate crate
-      crate[1]
-    end
-    stacks = {}
+    stacks1 = {}
+    stacks2 = {}
     crates, procedure = drawing.split("\n\n").map {|half| half.split("\n")}
     col_line = crates.pop
+    # Build out starting stack positions.
     (1..col_line.split(" ").last.to_i).each do |column|
-      stacks[column] = []
+      stacks1[column] = []
+      stacks2[column] = []
       idx = col_line.index column.to_s
       crates.reverse.each do |row|
         crate = row[idx]
-        stacks[column].push row[idx] unless crate.nil? or crate.match? /\s/
+        [stacks1, stacks2].each do |stacks|
+          stacks[column].push row[idx] unless crate.nil? or crate.match? /\s/
+        end
       end
     end
+
+    # Follow the procedure on the bottom half of the drawing.
     procedure.each do |step|
-      quantity, origin, destination =
-        step.split(" ").map {|x| x.to_i}.select {|x| x.nonzero?}
-      quantity.times {stacks[destination].push(stacks[origin].pop)}
+      quantity, origin, destination = step
+        .split(" ")
+        .map {|x| x.to_i}
+        .select {|x| x.nonzero?}
+      # Part 1
+      quantity.times {stacks1[destination].push(stacks1[origin].pop)}
+      # Part 2
+      stack = stacks2[origin].slice!(-quantity, quantity)
+      stacks2[destination].push *stack
     end
-    return stacks.map {|_, s| s.last}.join, ""
+
+    return [stacks1, stacks2].map {|stack| stack.map {|_, s| s.last}.join}
   end
 end
