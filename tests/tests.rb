@@ -86,10 +86,9 @@ class SolutionsTests < Test::Unit::TestCase
     assert_equal "MCD", p2
   end
 
-  def test_day6_part1
-    def p1_result input
-      result, _ =@@solutions.for day: 6, input: input
-      result
+  def test_day6
+    def results input
+      @@solutions.for day: 6, input: input
     end
 
     input1 = "mjqjpqmgbljsphdztnvjfqwrcgsmlb"
@@ -98,10 +97,10 @@ class SolutionsTests < Test::Unit::TestCase
     input4 = "nznrnfrfntjfmvfwmzdfjlvtqnbhcprsg"
     input5 = "zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw"
 
-    assert_equal 7, (p1_result input1)
-    assert_equal 5, (p1_result input2)
-    assert_equal 6, (p1_result input3)
-    assert_equal 10, (p1_result input4)
-    assert_equal 11, (p1_result input5)
+    assert_equal([7, 19], results(input1))
+    assert_equal([5, 23], results(input2))
+    assert_equal([6, 23], results(input3))
+    assert_equal([10, 29], results(input4))
+    assert_equal([11, 26], results(input5))
   end
 end

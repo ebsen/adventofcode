@@ -170,11 +170,16 @@ class Solutions
     return [stacks1, stacks2].map {|stack| stack.map {|_, s| s.last}.join}
   end
 
-  def day6 datastream_buffer
-    marker = datastream_buffer.chars.each_cons(4).select do |sequence|
-      sequence == sequence.uniq
-    end.first.join
-    # We want the last index of the sequence, not the first.
-    return (datastream_buffer.index marker) + marker.size, 0
+  def day6 buffer
+    return [4, 14]
+      .map do |len|
+        buffer.chars.each_cons(len).select do |sequence|
+          sequence == sequence.uniq
+        end.first.join
+      end
+      .map do |sequence|
+      # We want the last index of the sequence, not the first.
+      (buffer.index sequence) + sequence.size
+    end
   end
 end
