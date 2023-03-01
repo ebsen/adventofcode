@@ -98,13 +98,10 @@ class SolutionsTests < Test::Unit::TestCase
     input4 = "nznrnfrfntjfmvfwmzdfjlvtqnbhcprsg"
     input5 = "zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw"
 
-    # p1, p2 = @@solutions.for day: 6, input: input
-
     assert_equal 7, (p1_result input1)
     assert_equal 5, (p1_result input2)
     assert_equal 6, (p1_result input3)
     assert_equal 10, (p1_result input4)
     assert_equal 11, (p1_result input5)
-    # assert_equal nil, p2
   end
 end

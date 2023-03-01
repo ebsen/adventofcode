@@ -171,7 +171,10 @@ class Solutions
   end
 
   def day6 datastream_buffer
-    start_marker = ""
-    return 0, 0
+    marker = datastream_buffer.chars.each_cons(4).select do |sequence|
+      sequence == sequence.uniq
+    end.first.join
+    # We want the last index of the sequence, not the first.
+    return (datastream_buffer.index marker) + marker.size, 0
   end
 end
