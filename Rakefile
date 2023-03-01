@@ -3,9 +3,9 @@ require "standard/rake"
 task default: [:solve]
 
 task :solve do
-  ruby "advent.rb"
+  ruby "src/advent.rb"
 end
 
 task :test do
-  ruby "tests.rb"
+  ruby "tests/tests.rb"
 end

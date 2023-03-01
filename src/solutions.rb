@@ -169,4 +169,9 @@ class Solutions
 
     return [stacks1, stacks2].map {|stack| stack.map {|_, s| s.last}.join}
   end
+
+  def day6 datastream_buffer
+    start_marker = ""
+    return 0, 0
+  end
 end

@@ -5,9 +5,9 @@
 
 require 'net/http'
 require 'optparse'
+require 'sqlite3'
 
 require 'sequel'
-require 'sqlite3'
 
 require_relative 'models'
 require_relative 'schema'
