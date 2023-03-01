@@ -97,10 +97,10 @@ class SolutionsTests < Test::Unit::TestCase
     input4 = "nznrnfrfntjfmvfwmzdfjlvtqnbhcprsg"
     input5 = "zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw"
 
-    assert_equal([7, 19], results(input1))
-    assert_equal([5, 23], results(input2))
-    assert_equal([6, 23], results(input3))
-    assert_equal([10, 29], results(input4))
-    assert_equal([11, 26], results(input5))
+    assert_equal [7, 19], results(input1)
+    assert_equal [5, 23], results(input2)
+    assert_equal [6, 23], results(input3)
+    assert_equal [10, 29], results(input4)
+    assert_equal [11, 26], results(input5)
   end
 end
