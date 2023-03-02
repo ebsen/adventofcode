@@ -1,4 +1,9 @@
 .nova
 .vscode
 
-advent.db
+# Ruby
+Gemfile.lock
+
+# Data files
+*.csv
+*.db
