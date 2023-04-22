@@ -1,5 +1,18 @@
 require 'set'
 
+class Node
+  attr_accessor :name
+  attr_accessor :parent
+  attr_accessor :size
+
+  def initialize(name: "/", parent: nil)
+    @name = name
+    @parent = parent
+    @size = 0
+  end
+end
+
+
 class Solutions
   @@is_debug = false
 
@@ -181,5 +194,35 @@ class Solutions
       # We want the last index of the sequence, not the first.
       (buffer.index sequence) + sequence.size
     end
+  end
+
+  def day7 text
+    threshold = 100_000
+    all_dirs = []
+    current = nil
+    filesystem = Node.new
+    process(text).each do |line|
+      next if line == "$ ls"
+      case line.split(" ")
+      in ["$", "cd", "/"]
+        current = filesystem
+      in ["$", "cd", ".."]
+        current = current.parent
+      in ["$", "cd", dir]
+        new_dir = Node.new name: dir, parent: current
+        all_dirs.append new_dir
+        current = new_dir
+      in ["dir", name]
+        next
+      in [size, filename]
+        current.size += size.to_i
+        going_up = current
+        while going_up.parent
+          going_up = going_up.parent
+          going_up.size += size.to_i
+        end
+      end
+    end
+    all_dirs.filter {|dir| dir.size < threshold}.map {|dir| dir.size}.sum
   end
 end
