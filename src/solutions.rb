@@ -25,7 +25,13 @@ class Solutions
   private
   def process data, as_i: false
     # `data` is a multiline string.
-    data.split("\n").map {|l| as_i ? l.to_i : l.chomp}
+    data.split("\n").map do |line|
+      if as_i
+        line.to_i
+      else
+        line.chomp
+      end
+    end
   end
 
   def day1 input
