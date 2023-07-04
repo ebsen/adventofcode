@@ -197,15 +197,21 @@ class Solutions
   end
 
   def day7 text
-    threshold = 100_000
+    total_disk_size = 70_000_000
+    space_needed = 30_000_000
+    size_threshold = 100_000 # Part 1
     all_dirs = []
     current = nil
     filesystem = Node.new
+
+    # Part 1
+    # Process the tree.
     process(text).each do |line|
       next if line == "$ ls"
       case line.split(" ")
       in ["$", "cd", "/"]
         current = filesystem
+        all_dirs.append current
       in ["$", "cd", ".."]
         current = current.parent
       in ["$", "cd", dir]
@@ -223,6 +229,20 @@ class Solutions
         end
       end
     end
-    all_dirs.filter {|dir| dir.size < threshold}.map {|dir| dir.size}.sum
+
+    p1_answer = all_dirs
+      .filter {|dir| dir.size < size_threshold}
+      .map {|dir| dir.size}
+      .sum
+
+    # Part 2
+    # Find the directory to delete.
+    needed_space_remaining = space_needed - (total_disk_size - filesystem.size)
+    p2_answer = all_dirs
+      .filter {|dir| dir.size > needed_space_remaining}
+      .sort {|x, y| x.size <=> y.size}
+      .reverse.last.size
+
+    return [p1_answer, p2_answer]
   end
 end

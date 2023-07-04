@@ -151,5 +151,6 @@ class SolutionsTests < Test::Unit::TestCase
 
     p1, p2 = @@solutions.for day: 7, input: input
     assert_equal 95437, p1
+    assert_equal 24933642, p2
   end
 end
