@@ -18,11 +18,18 @@ class Solutions
 
   def for day: nil, input: nil
     # Get (a little) clever and dynamically call the correct `day<#>` method.
-    part1, part2 = self.send "day#{day}".to_sym, input
+    solver = "day#{day}".to_sym
+    begin
+      part1, part2 = self.send solver, input
+    rescue NoMethodError
+      puts "No implementation found for day #{day}."
+      part1, part2 = nil, nil
+    end
     return part1, part2
   end
 
   private
+
   def process data, as_i: false
     # `data` is a multiline string.
     data.split("\n").map do |line|
