@@ -1,3 +1,4 @@
+require 'matrix'
 require 'set'
 
 class Node
@@ -257,5 +258,32 @@ class Solutions
       .reverse.last.size
 
     return [p1_answer, p2_answer]
+  end
+
+  def day8 map
+    heights = Matrix[
+      *map.split("\n").map do |line|
+        line.split("").map(&:to_i)
+      end
+    ]
+    visible_trees = 0
+    heights.each_with_index do |e, i, j|
+      row =   heights.row i
+      col =   heights.column j
+      left =  row[ (...j) ]
+      right = row[ ((j + 1)..) ]
+      up =    col[ (...i) ]
+      down =  col[ ((i + 1)..) ]
+
+      # Part 1: How many trees are visible from outside the grid?
+      [left, right, up, down].each do |direction|
+        is_visible = direction.to_a.all? {|d| d < e}
+        if is_visible
+          visible_trees += 1
+          break
+        end
+      end
+    end
+    [visible_trees, nil]
   end
 end
