@@ -198,16 +198,14 @@ class Solutions
   end
 
   def day6 buffer
-    return [4, 14]
-      .map do |len|
-        buffer.chars.each_cons(len).select do |sequence|
-          sequence == sequence.uniq
-        end.first.join
-      end
-      .map do |sequence|
+    [4, 14].map { |len|
+      buffer.chars.each_cons(len).select { |sequence|
+        sequence == sequence.uniq
+      }.first.join
+    }.map { |sequence|
       # We want the last index of the sequence, not the first.
       (buffer.index sequence) + sequence.size
-    end
+    }
   end
 
   def day7 text
