@@ -164,6 +164,6 @@ class SolutionsTests < Test::Unit::TestCase
     HEREDOC
     p1, p2 = @@solutions.for day: 8, input: input
     assert_equal 21, p1
-    # assert_equal nil, p2
+    assert_equal 8, p2
   end
 end

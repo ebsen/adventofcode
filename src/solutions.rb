@@ -267,13 +267,14 @@ class Solutions
       end
     ]
     visible_trees = 0
+    highest_score = 0
     heights.each_with_index do |e, i, j|
-      row =   heights.row i
-      col =   heights.column j
-      left =  row[ (...j) ]
-      right = row[ ((j + 1)..) ]
-      up =    col[ (...i) ]
-      down =  col[ ((i + 1)..) ]
+      row   = heights.row i
+      col   = heights.column j
+      left  = row[...j]
+      right = row[(j + 1)..]
+      up    = col[...i ]
+      down  = col[(i + 1)..]
 
       # Part 1: How many trees are visible from outside the grid?
       [left, right, up, down].each do |direction|
@@ -283,7 +284,23 @@ class Solutions
           break
         end
       end
+
+      # Part 2: Find the highest scenic scoring tree.
+      score = [
+        up.reverse,   # going outward from e this time
+        left.reverse, # going outward from e this time
+        down,
+        right,
+      ].map { |direction|
+        distance = 0
+        direction.each {|x|
+          distance += 1
+          break if e <= x
+        }
+        distance
+      }.inject(&:*) # apply * to each mapped element
+      highest_score = score if score > highest_score
     end
-    [visible_trees, nil]
+    [visible_trees, highest_score]
   end
 end
