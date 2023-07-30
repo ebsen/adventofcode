@@ -290,15 +290,17 @@ class Solutions
         down,
         right,
       ].map { |direction|
+        # There ought to be some way to one-line this but I gave up.
         distance = 0
-        direction.each {|x|
+        direction.each do |x|
           distance += 1
           break if e <= x
-        }
+        end
         distance
       }.inject(&:*) # apply * to each mapped element
       highest_score = score if score > highest_score
     end
-    [visible_trees, highest_score]
+
+    return visible_trees, highest_score
   end
 end
