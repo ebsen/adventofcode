@@ -24,7 +24,7 @@ init if options[:init]
 migrate if options[:migrate]
 
 def output result, answer
-  result = result.to_s
+  result = result.nil? ? "nil" : result.to_s
   if answer.nil?
     # New result, no known answer.
     result.prepend "? "

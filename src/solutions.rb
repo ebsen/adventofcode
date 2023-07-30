@@ -1,18 +1,45 @@
+require 'matrix'
 require 'set'
+
+class Node
+  attr_accessor :name
+  attr_accessor :parent
+  attr_accessor :size
+
+  def initialize(name: "/", parent: nil)
+    @name = name
+    @parent = parent
+    @size = 0
+  end
+end
+
 
 class Solutions
   @@is_debug = false
 
   def for day: nil, input: nil
     # Get (a little) clever and dynamically call the correct `day<#>` method.
-    part1, part2 = self.send "day#{day}".to_sym, input
+    solver = "day#{day}".to_sym
+    begin
+      part1, part2 = self.send solver, input
+    rescue NoMethodError
+      puts "No implementation found for day #{day}."
+      part1, part2 = nil, nil
+    end
     return part1, part2
   end
 
   private
+
   def process data, as_i: false
     # `data` is a multiline string.
-    data.split("\n").map {|l| as_i ? l.to_i : l.chomp}
+    data.split("\n").map do |line|
+      if as_i
+        line.to_i
+      else
+        line.chomp
+      end
+    end
   end
 
   def day1 input
@@ -181,5 +208,99 @@ class Solutions
       # We want the last index of the sequence, not the first.
       (buffer.index sequence) + sequence.size
     end
+  end
+
+  def day7 text
+    total_disk_size = 70_000_000
+    space_needed = 30_000_000
+    size_threshold = 100_000 # Part 1
+    all_dirs = []
+    current = nil
+    filesystem = Node.new
+
+    # Part 1
+    # Process the tree.
+    process(text).each do |line|
+      next if line == "$ ls"
+      case line.split(" ")
+      in ["$", "cd", "/"]
+        current = filesystem
+        all_dirs.append current
+      in ["$", "cd", ".."]
+        current = current.parent
+      in ["$", "cd", dir]
+        new_dir = Node.new name: dir, parent: current
+        all_dirs.append new_dir
+        current = new_dir
+      in ["dir", name]
+        next
+      in [size, filename]
+        current.size += size.to_i
+        going_up = current
+        while going_up.parent
+          going_up = going_up.parent
+          going_up.size += size.to_i
+        end
+      end
+    end
+
+    p1_answer = all_dirs
+      .filter {|dir| dir.size < size_threshold}
+      .map {|dir| dir.size}
+      .sum
+
+    # Part 2
+    # Find the directory to delete.
+    needed_space_remaining = space_needed - (total_disk_size - filesystem.size)
+    p2_answer = all_dirs
+      .filter {|dir| dir.size > needed_space_remaining}
+      .sort {|x, y| x.size <=> y.size}
+      .reverse.last.size
+
+    return [p1_answer, p2_answer]
+  end
+
+  def day8 map
+    heights = Matrix[
+      *map.split("\n").map do |line|
+        line.split("").map(&:to_i)
+      end
+    ]
+    visible_trees = 0
+    highest_score = 0
+    heights.each_with_index do |e, i, j|
+      row   = heights.row i
+      col   = heights.column j
+      left  = row[...j]
+      right = row[(j + 1)..]
+      up    = col[...i ]
+      down  = col[(i + 1)..]
+
+      # Part 1: How many trees are visible from outside the grid?
+      [left, right, up, down].each do |direction|
+        is_visible = direction.to_a.all? {|d| d < e}
+        if is_visible
+          visible_trees += 1
+          break
+        end
+      end
+
+      # Part 2: Find the highest scenic scoring tree.
+      score = [
+        up.reverse,   # going outward from e this time
+        left.reverse, # going outward from e this time
+        down,
+        right,
+      ].map { |direction|
+        distance = 0
+        direction.each {|x|
+          distance += 1
+          break if e <= x
+        }
+        distance
+      }.inject(&:*) # apply * to each mapped element
+      highest_score = score if score > highest_score
+    end
+    [visible_trees, highest_score]
   end
 end
