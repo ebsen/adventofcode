@@ -1,6 +1,6 @@
 # Advent of Code
 
-## 2022
-This year, Ruby!
-A new branch containing _only_ 2022 code. Way simpler.
+## 2024
+This year, `language TBD`!
 
+A new branch containing _only_ 2024 code. Way simpler.
